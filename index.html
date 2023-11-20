@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Пошуковики</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+        gap: 10px;
+      }
+      img {
+        position: relative;
+        bottom: 60px;
+        width: 800px;
+        height: 500px;
+        z-index: 0;
+      }
+      .searches {
+        position: relative;
+        bottom: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        z-index: 999;
+      }
+      #searchType {
+        margin-bottom: 10px;
+      }
+      select {
+        margin: 0 !important;
+        height: 50px;
+        width: 150px;
+        text-align: center;
+        border-radius: 10px;
+      }
+      input[type="text"] {
+        height: 50px;
+        width: 500px;
+        text-align: center;
+        border-radius: 50px;
+        border: 0.5px solid rgb(212, 212, 212);
+      }
+      input[type="text"]:hover {
+        box-shadow: 0px 0px 3px 0px;
+      }
+      button {
+        height: 50px;
+        border-radius: 50px;
+        width: 120px;
+        cursor: pointer;
+        border: 0.5px solid rgb(212, 212, 212);
+        transition: 0.5s;
+      }
+      button:hover {
+        box-shadow: 0px 0px 3px 0px;
+        transition: 0.5s;
+      }
+      .links {
+        position: relative;
+        bottom: 100px;
+        display: flex;
+        gap: 20px;
+      }
+      a {
+        text-decoration: none;
+        background-color: rgb(226, 226, 226);
+        color: black;
+        padding: 10px;
+        width: 100px;
+        text-align: center;
+        border-radius: 5px;
+      }
+      a:hover {
+        box-shadow: 0px 0px 3px 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <img
+      src="https://th.bing.com/th/id/R.4ea7270debc77a8076d7311678d0bc03?rik=Bi9pCWbE%2fRfGOw&riu=http%3a%2f%2fpngimg.com%2fuploads%2fgoogle%2fgoogle_PNG102344.png&ehk=EorSmHw0%2fNpg4ZEsf%2bHWy5dYWFhVQhy2e6Kjj6JeEj0%3d&risl=&pid=ImgRaw&r=0"
+      alt=""
+    />
+    <div class="searches">
+      <select id="searchType">
+        <option value="google">Google Search</option>
+        <option value="images">Image Search</option>
+        <option value="extended">Extended Search</option>
+      </select>
+
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Enter your search query"
+      />
+      <button onclick="performSearch()">Search</button>
+
+      <form action="https://google.com/search" method="GET" target="_blank">
+        <input
+          type="text"
+          name="q"
+          id="googleSearchInput"
+          style="display: none"
+        />
+      </form>
+
+      <form
+        action="https://google.com/search"
+        method="GET"
+        target="_blank"
+        id="imageSearchForm"
+        style="display: none"
+      >
+        <input
+          type="text"
+          name="q"
+          id="imageSearchInput"
+          style="display: none"
+        />
+        <input type="hidden" name="tbm" value="isch" />
+        <input type="submit" value="Image Search" />
+      </form>
+
+      <form
+        action="https://google.com/search"
+        method="GET"
+        target="_blank"
+        id="extendedSearchForm"
+        style="display: none"
+      >
+        <input
+          type="text"
+          name="q"
+          id="extendedSearchInput"
+          style="display: none"
+        />
+        <input type="submit" value="Extended Search" />
+      </form>
+    </div>
+    <div class="links">
+      <a href="https://doodles.google/" target="_blank"><p>Lucky Me</p></a>
+      <a href="  https://www.google.com/" target="_blank"><p>Google</p></a>
+    </div>
+    <div id="searchResults"></div>
+    <script>
+        function performSearch() {
+          var searchType = document.getElementById("searchType").value;
+          var searchQuery = document.getElementById("searchInput").value;
+  
+          document.getElementById("googleSearchInput").value = searchQuery;
+          document.getElementById("imageSearchInput").value = searchQuery;
+          document.getElementById("extendedSearchInput").value = searchQuery;
+  
+          switch (searchType) {
+            case "google":
+              document.getElementById("googleSearchInput").parentNode.submit();
+              break;
+  
+            case "images":
+              document.getElementById("imageSearchForm").submit();
+              break;
+  
+            case "extended":
+              document.getElementById("extendedSearchForm").submit();
+              break;
+  
+            default:
+              displayResults("Invalid search type.", []);
+              break;
+          }
+        }
+  
+        function displayResults(title, results) {
+          var searchResultsContainer = document.getElementById("searchResults");
+          searchResultsContainer.innerHTML = <h3>${title}</h3>;
+  
+          if (results.length === 0) {
+            searchResultsContainer.innerHTML += "No results found.";
+          } else {
+            results.forEach((result) => {
+              searchResultsContainer.innerHTML += <p>${result}</p>;
+            });
+          }
+        }
+      </script>
+    </body>
+  </html>
+  
